@@ -30,12 +30,6 @@ updates:
     schedule:
       interval: "daily"
 
-  # PowerShell
-  - package-ecosystem: "nuget"
-    directory: "/"
-    schedule:
-      interval: "daily"
-
   # Bash (using GitHub Actions for bash scripts)
   - package-ecosystem: "github-actions"
     directory: "/"
