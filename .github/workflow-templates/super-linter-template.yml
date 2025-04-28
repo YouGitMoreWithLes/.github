@@ -1,4 +1,4 @@
-name: Linter
+name: YouGitMoreWithLes-Linter
 on:
   workflow_dispatch:
   pull_request:
