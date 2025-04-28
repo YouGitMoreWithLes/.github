@@ -1,0 +1,44 @@
+name: Linter
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+      - feature/*
+      - hotfix/*
+
+jobs:
+  lint:
+    name: Lint all repository code
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Run super-linter
+        uses: github/super-linter@v7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: "main"
+          DISABLE: JSCPD CHECKOV
+          PRETTIER_CONFIG_FILE: ./.prettierrc
+          VALIDATE_ALL_CODEBASE: true
+          VALIDATE_BASH_EXEC: false
+          VALIDATE_CHECKOV: false
+          VALIDATE_JSCPD: false
+          VALIDATE_DOTNET_SLN_FORMAT_ANALYZERS: false
+          VALIDATE_DOTNET_SLN_FORMAT_STYLE: false
+          VALIDATE_DOTNET_SLN_FORMAT_WHITESPACE: false
+          FIX_JAVASCRIPT_PRETTIER: true
+          FIX_SHELL_SHFMT: true
+          FIX_TERRAFORM_FMT: true
+          FIX_YAML_PRETTIER: true
